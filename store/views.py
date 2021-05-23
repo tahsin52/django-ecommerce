@@ -28,7 +28,7 @@ def store(request, category_slug=None):
         product_count = products.count()
     context = {
         'products': paged_products,
-        'product_count':product_count,
+        'product_count': product_count,
     }
     return render(request, 'store/store.html', context)
 
@@ -49,14 +49,13 @@ def product_detail(request, category_slug, product_slug):
     return render(request, 'store/product_detail.html', context=context)
 
 
-
 def search(request):
-
     product_count = 0
     if 'keyword' in request.GET:
         keyword = request.GET['keyword']
         if keyword:
-            products = Product.objects.order_by('-created_date').filter(Q(product_name__icontains=keyword) | Q(description__icontains=keyword))
+            products = Product.objects.order_by('-created_date').filter(
+                Q(product_name__icontains=keyword) | Q(description__icontains=keyword))
             product_count = products.count()
 
     context = {
