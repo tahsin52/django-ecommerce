@@ -3,15 +3,16 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from carts.models import Cart, CartItem
 from carts.views import _cart_id
-from .forms import RegisterForm
-from .models import Account
+from orders.models import Order
+from .forms import RegisterForm, UserProfileForm, UserForm
+from .models import Account, UserProfile
 import requests
 from requests import utils
 
@@ -30,6 +31,13 @@ def register(request):
                                                email=email, password=password)
             user.phone = phone
             user.save()
+
+            # CREATE USER PROFILE
+
+            profile = UserProfile()
+            profile.user_id = user.id
+            profile.profile_picture = 'default/defaultuser.png'
+            profile.save()
 
             # USER ACTIVATION
             current_site = get_current_site(request)
@@ -152,7 +160,14 @@ def activate(request, uidb64, token):
 
 @login_required(login_url='login')
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    orders = Order.objects.order_by('-created_at').filter(user_id=request.user.id, is_ordered=True)
+    orders_count = orders.count()
+
+    context = {
+        'orders_count': orders_count,
+    }
+
+    return render(request, 'dashboard.html', context)
 
 
 def forgotpassword(request):
@@ -223,3 +238,36 @@ def resetPassword(request):
     else:
 
         return render(request, 'accounts/resetpassword.html')
+
+
+def my_orders(request):
+    orders = Order.objects.filter(user=request.user, is_ordered=True).order_by('-created_at')
+
+    context = {
+        'orders': orders
+    }
+
+    return render(request, 'accounts/my_orders.html', context)
+
+def edit_profile(request):
+    userprofile = get_object_or_404(UserProfile, user=request.user)
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Your Profile has been updated!')
+            return redirect('edit_profile')
+
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = UserProfileForm(instance=userprofile)
+
+    context = {
+        'user_form': user_form,
+        'profile_form': profile_form,
+        'userprofile': userprofile,
+    }
+
+    return render(request, 'accounts/edit_profile.html', context)
