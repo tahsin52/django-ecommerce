@@ -153,8 +153,8 @@
         var amount = "{{ grand_total }}"
         var url = "{% url 'payments' %}"
         var orderID = "{{ order.order_number }}"
-        var payment_method = "Paypal"
-        var redirect_url = {% url 'order_complete' %}
+        var payment_method = "PayPal"
+        var redirect_url = "{% url 'order_complete' %}"
         // Render the PayPal button into #paypal-button-container
         paypal.Buttons({
 

@@ -25,8 +25,8 @@ def add_cart(request, product_id):
                 value = request.POST[key]
 
                 try:
-                    variation = Varition.objects.get(product=product, variation_category__iexact=key,
-                                                      variation_value__iexact=value)
+                    variation = Varition.objects.get(product=product, varition_category__iexact=key,
+                                                      varition_value__iexact=value)
                     product_variation.append(variation)
                 except:
                     pass
@@ -75,8 +75,8 @@ def add_cart(request, product_id):
                 value = request.POST[key]
 
                 try:
-                    variation = Varition.objects.get(product=product, variation_category__iexact=key,
-                                                      variation_value__iexact=value)
+                    variation = Varition.objects.get(product=product, varition_category__iexact=key,
+                                                      varition_value__iexact=value)
                     product_variation.append(variation)
                 except:
                     pass
