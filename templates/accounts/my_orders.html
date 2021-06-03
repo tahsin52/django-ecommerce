@@ -12,7 +12,7 @@
 	<main class="col-md-9">
 		<article class="card">
 		<header class="card-header">
-			<strong class="d-inline-block mr-3">Your Order History {{ user.full_name|capfirst }}</strong>
+			<strong class="d-inline-block mr-3">Your Order History: {{ user.full_name|capfirst }}</strong>
 		</header>
         {% if orders %}
 		<div class="card-body">
@@ -32,7 +32,7 @@
                       <tbody>
                       {% for order in orders %}
                         <tr>
-                          <th scope="row">{{ order.order_number }}</th>
+                          <th scope="row"><a href="{% url 'order_detail' order.order_number %}">{{ order.order_number }}</a></th>
                           <td>{{ order.full_name }}</td>
                           <td>{{ order.phone }}</td>
                           <td>${{ order.order_total }}</td>
