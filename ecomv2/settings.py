@@ -25,7 +25,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool) # True
 
-ALLOWED_HOSTS = ['ecomv2-venv.eba-ttum3ith.us-west-2.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['Django-Ecommerce-env.eba-3cnvbbas.us-west-2.elasticbeanstalk.com']
 
 # Application definition
 
