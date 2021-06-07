@@ -1,4 +1,4 @@
-# django-ecommerce
+# Django-ecommerce
 
 ### Setup Project</br>
 1- python manage.py makemigrations</br>
