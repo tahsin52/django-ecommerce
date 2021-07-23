@@ -83,5 +83,10 @@ class UserProfile(models.Model):
     def __str__(self):
         return str(self.user.first_name)
 
+    @property
+    def photo_url(self):
+        if self.profile_picture and hasattr(self.profile_picture, 'url'):
+            return self.profile_picture.url
+
     def full_address(self):
         return f'{self.address_line_1} {self.address_line_2}'
