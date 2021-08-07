@@ -1,11 +1,11 @@
 # Django-ecommerce
 ## In project scope;
-1- With AbstractBaseUser, You can do user login, user registration 
-2- You can add, delete or update products and you can add variations and set color and size from the admin panel.
-3- You can create and edit a profile, you can see your orders
-4- Paypal ready to use as payment system
-5- You can list or add products according to their categories.
-6- User registration includes e-mail verification
+1- With AbstractBaseUser, You can do user login, user registration </br>
+2- You can add, delete or update products and you can add variations and set color and size from the admin panel.</br>
+3- You can create and edit a profile, you can see your orders</br>
+4- Paypal ready to use as payment system</br>
+5- You can list or add products according to their categories.</br>
+6- User registration includes e-mail verification</br>
 
 # Most of these processes are done through the admin panel!!
 # Backend and frontend are used in the project.
