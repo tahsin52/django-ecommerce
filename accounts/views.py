@@ -67,8 +67,8 @@ def register(request):
 
 def login(request):
     if request.method == 'POST':
-        email = request.POST['email']
-        password = request.POST['password']
+        email = request.POST.get('email')
+        password = request.POST.get('password')
 
         user = auth.authenticate(email=email, password=password)
 
@@ -163,7 +163,7 @@ def activate(request, uidb64, token):
 def dashboard(request):
     orders = Order.objects.order_by('-created_at').filter(user_id=request.user.id, is_ordered=True)
     orders_count = orders.count()
-    userprofile = UserProfile.objects.get(user_id=request.user.id)
+    userprofile = UserProfile.objects.get_or_create(user_id=request.user.id)
     context = {
         'orders_count': orders_count,
         'userprofile':userprofile,
@@ -174,7 +174,7 @@ def dashboard(request):
 
 def forgotpassword(request):
     if request.method == 'POST':
-        email = request.POST['email']
+        email = request.POST.get('email')
         if Account.objects.filter(email=email).exists():
             user = Account.objects.get(email__exact=email)
 
@@ -223,9 +223,9 @@ def resetpassword_validate(request, uidb64, token):
 def resetPassword(request):
     if request.method == 'POST':
         password = request.POST['password']
-        confrim_password = request.POST['confrim_password']
+        confirm_password = request.POST['confirm_password']
 
-        if password == confrim_password:
+        if password == confirm_password:
             uid = request.session.get('uid')
             user = Account.objects.get(pk=uid)
             user.set_password(password)
